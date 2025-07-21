@@ -8,12 +8,12 @@ export default function Empty() {
         <Image
           src="/assets/images/illustration-phone-mockup.svg"
           height={32}
-          width={32}
+          width={507}
           alt="phone"
-          className="w-auto h-auto "
+          className=" h-auto "
         />
       </section>
-      <div className="bg-white md rounded-[8px]">
+      <div className="bg-white md:rounded-[8px]">
         <section className="m-4 p-6  rounded-[8px]">
           <article>
             <h1 className="font-bold text-2xl text-gray-900 mb-2">
