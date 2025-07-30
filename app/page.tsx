@@ -3,12 +3,13 @@ import Register_Form from "@/components/auth/registeration_form";
 import Header from "@/components/link/header";
 import Empty from "@/components/link/empty";
 import Profile_Details from "@/components/link/profile";
+import Preview from "@/components/link/preview";
 
 export default function Home() {
   return (
     <main className="">
-      <Header />
-      <Profile_Details />
+      <Preview />
+      {/* <Profile_Details /> */}
     </main>
   );
 }

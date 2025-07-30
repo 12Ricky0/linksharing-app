@@ -7,7 +7,7 @@ export default function Profile_Details() {
         <Image
           src="/assets/images/illustration-phone-mockup.svg"
           height={32}
-          width={507}
+          width={307}
           alt="phone"
           className=" h-auto "
         />
@@ -23,41 +23,49 @@ export default function Profile_Details() {
             </p>
           </article>
 
-          <article className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
-            <h3 className="font-normal text-[16px] mb-4 text-gray-500">
+          <article className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-row justify-between items-center md:px-[24px] rounded-[8px]">
+            <h3 className="font-normal text-[16px] mb-4 md:mb-0 text-gray-500">
               Profile picture
             </h3>
-            <div className="bg-gray-100 mb-6 rounded-[8px] size-[150px] flex justify-center items-center flex-col gap-2">
-              <Image
-                src="/assets/images/icon-upload-image.svg"
-                height={32}
-                width={32}
-                alt="upload"
-                className="w-auto h-auto "
-              />
-              <h1 className="text-[16px] font-semibold text-[#633CFF]">
-                + Upload Image
-              </h1>
+            <div className="md:inline-flex items-center gap-6">
+              <div className="bg-gray-100 mb-6 md:mb-0 rounded-[8px] size-[150px] flex justify-center items-center flex-col gap-2">
+                <Image
+                  src="/assets/images/icon-upload-image.svg"
+                  height={32}
+                  width={32}
+                  alt="upload"
+                  className="w-auto h-auto "
+                />
+                <h1 className="text-[16px] font-semibold text-[#633CFF]">
+                  + Upload Image
+                </h1>
+              </div>
+              <p className="font-normal md:block hidden  text-[12px] text-gray-500">
+                Image must be below 1024x1024px.
+                <br /> Use PNG or JPG format.{" "}
+              </p>
+              <p className="font-normal md:hidden text-[12px] text-gray-500">
+                Image must be below 1024x1024px. Use PNG or JPG format.{" "}
+              </p>
             </div>
-            <p className="font-normal text-[12px] text-gray-500">
-              Image must be below 1024x1024px. Use PNG or JPG format.{" "}
-            </p>
           </article>
           <form className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
             <div className="font-normal text-[12px] text-gray-900">
-              <label htmlFor="">First Name</label>
-              <input
-                className="w-full py-4 pr-4 pl-12 my-2 border border-gray-200 rounded-[8px]"
-                placeholder=""
-                type="text"
-              />
-              <label htmlFor="">Last Name</label>
+              <label className="" htmlFor="">
+                First Name
+              </label>
               <input
                 className="w-full py-4 pr-4 pl-12 my-2 border border-gray-200 rounded-[8px]"
                 placeholder=""
                 type="text"
               />
 
+              <label htmlFor="">Last Name</label>
+              <input
+                className="w-full py-4 pr-4 pl-12 my-2 border border-gray-200 rounded-[8px]"
+                placeholder=""
+                type="text"
+              />
               <label htmlFor="">Email</label>
               <div className="relative">
                 <Image
