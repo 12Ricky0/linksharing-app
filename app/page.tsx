@@ -4,12 +4,13 @@ import Header from "@/components/link/header";
 import Empty from "@/components/link/empty";
 import Profile_Details from "@/components/link/profile";
 import Preview from "@/components/link/preview";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <main className="">
-      <Preview />
-      {/* <Profile_Details /> */}
+      <Header />
+      <Empty />
     </main>
   );
 }

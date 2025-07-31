@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Add_Link from "./link_form";
 
 export default function Empty() {
   return (
@@ -28,8 +29,8 @@ export default function Empty() {
               + Add new link
             </button>
           </article>
-
-          <article className="bg-gray-50 mt-6 px-6 py-8 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
+          <Add_Link />
+          {/* <article className="bg-gray-50 mt-6 px-6 py-8 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
             <Image
               src="/assets/images/illustration-empty.svg"
               height={32}
@@ -45,7 +46,7 @@ export default function Empty() {
               than one link, you can reorder and edit them. We’re here to help
               you share your profiles with everyone!{" "}
             </p>
-          </article>
+          </article> */}
         </section>
         <div className="border-t mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
           <button className="bg-[#633CFF] m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]">
