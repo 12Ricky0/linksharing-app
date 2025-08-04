@@ -33,7 +33,6 @@ export default function Add_Link() {
     updated[index].platform = newPlatform;
     updated[index].showList = false;
     setLinks(updated);
-    // console.log(index);
   };
 
   const toggleDropdown = (index: number) => {
@@ -47,27 +46,43 @@ export default function Add_Link() {
   };
 
   return (
-    <section className=" lg:flex justify-between gap-6 md:m-6">
-      <div className="hidden flex-2/5 lg:flex items-center px-[126px] relative max-h-[764px] bg-white rounded-[8px]">
+    <section className=" lg:flex justify-between  gap-6 md:m-6">
+      <div className="hidden flex-2/5 lg:flex items-center px-[126px] relative max-h-[700px] bg-white rounded-[8px]">
         <Image
           src="/assets/images/illustration-phone-mockup.svg"
           height={32}
-          width={507}
+          width={307}
           alt="phone"
-          className="w-auto h-auto "
+          className="w-[307px] shrink-0 h-auto "
         />
-        {/* <div className="absolute bg-gray-950 w-[253px] t rounded-[8px] py-[14px]">
-          {" "}
-          <Image
-            src="/assets/images/icon-github.svg"
-            height={32}
-            width={32}
-            alt="down"
-            className="w-auto h-auto"
-          />
-        </div> */}
+        <section className="absolute max-h-[300px] gap-[20px] left-[160px] overflow-y-auto top-[310px] flex flex-col">
+          {links.map((link, index) => (
+            <div
+              key={index}
+              className=" bg-gray-950 w-[243px]  flex justify-between px-4 rounded-[8px] py-[14px]"
+            >
+              <div className="inline-flex gap-4 font-normal text-white text-[12px] ">
+                <Image
+                  src={`/assets/images/icon-${link.platform.toLowerCase()}.svg`}
+                  height={32}
+                  width={32}
+                  alt={`${link.platform.toLowerCase()}-icon`}
+                  className="w-auto h-auto"
+                />
+                <span>{link.platform}</span>{" "}
+              </div>
+              <Image
+                src="/assets/images/icon-arrow-right.svg"
+                height={32}
+                width={32}
+                alt="down"
+                className="w-auto h-auto"
+              />
+            </div>
+          ))}
+        </section>
       </div>
-      <section className="bg-white flex-6/12 md:rounded-[8px]">
+      <section className="bg-white max-h-[864px] overflow-y-auto flex-6/12 md:rounded-[8px]">
         <div className="m-4 p-6  rounded-[8px]">
           <article>
             <h1 className="font-bold text-2xl text-gray-900 mb-2">
@@ -190,16 +205,6 @@ export default function Add_Link() {
                   >
                     Link
                   </label>
-                  {/* <div className="border mt-2 w-full p-4 cursor-pointer gap-4 border-gray-200 flex items-center rounded-[8px]">
-                    <Image
-                      src="/assets/images/icon-link.svg"
-                      height={32}
-                      width={32}
-                      alt="link"
-                      className="w-auto h-auto"
-                    />
-                    <span>GitHub</span>
-                  </div> */}
                   <div className="border mt-2 w-full p-4 gap-4 border-gray-200 flex items-center rounded-[8px]">
                     <Image
                       src="/assets/images/icon-link.svg"
@@ -225,7 +230,7 @@ export default function Add_Link() {
             ))}
           </form>
         </div>
-        <div className="border-t mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
+        <div className="border-t  mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
           <button className="bg-[#633CFF] m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]">
             Save
           </button>
