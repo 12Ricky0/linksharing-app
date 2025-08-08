@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import Sortable_Item from "../dnd/sortable";
 
 export default function Add_Link() {
   const platforms = [
@@ -19,6 +20,23 @@ export default function Add_Link() {
     "Hashnode",
     "Stack-Overflow",
   ];
+
+  const colors = {
+    GitHub: "#1A1A1A",
+    "Frontend-Mentor": "#D9D9D9",
+    Twitter: "#43B7E9",
+    LinkedIn: "#2D68FF",
+    YouTube: "#EE3939",
+    Facebook: "#2442AC",
+    Twitch: "#EE3FC8",
+    Devto: "#333333",
+    Codewars: "#8A1A50",
+    Codepen: "#8A1A50",
+    freeCodeCamp: "#302267",
+    GitLab: "#EB4925",
+    Hashnode: "#0330D1",
+    "Stack-Overflow": "#EC7100",
+  };
 
   const [links, setLinks] = useState([
     {
@@ -41,8 +59,21 @@ export default function Add_Link() {
     setLinks(updated);
   };
 
+  const selectedLinks = links.map((link) => link.platform);
+  const unselectedLinks = platforms.filter(
+    (platform) => !selectedLinks.includes(platform)
+  );
+
+  const getRandomUnselectedPlatform = () => {
+    if (unselectedLinks.length === 0) return null;
+
+    const randomIndex = Math.floor(Math.random() * unselectedLinks.length);
+    return unselectedLinks[randomIndex];
+  };
+
   const addLink = () => {
-    setLinks([...links, { platform: "GitHub", url: "", showList: false }]);
+    const nextPlatform = getRandomUnselectedPlatform() || "GitHub";
+    setLinks([...links, { platform: nextPlatform, url: "", showList: false }]);
   };
 
   return (
@@ -57,28 +88,13 @@ export default function Add_Link() {
         />
         <section className="absolute max-h-[300px] gap-[20px] left-[160px] overflow-y-auto top-[310px] flex flex-col">
           {links.map((link, index) => (
-            <div
+            <Sortable_Item
               key={index}
-              className=" bg-gray-950 w-[243px]  flex justify-between px-4 rounded-[8px] py-[14px]"
-            >
-              <div className="inline-flex gap-4 font-normal text-white text-[12px] ">
-                <Image
-                  src={`/assets/images/icon-${link.platform.toLowerCase()}.svg`}
-                  height={32}
-                  width={32}
-                  alt={`${link.platform.toLowerCase()}-icon`}
-                  className="w-auto h-auto"
-                />
-                <span>{link.platform}</span>{" "}
-              </div>
-              <Image
-                src="/assets/images/icon-arrow-right.svg"
-                height={32}
-                width={32}
-                alt="down"
-                className="w-auto h-auto"
-              />
-            </div>
+              index={index}
+              id={index}
+              color={colors[link.platform]}
+              name={link.platform}
+            />
           ))}
         </section>
       </div>
@@ -178,12 +194,19 @@ export default function Add_Link() {
                   </div>
 
                   {link.showList && (
-                    <ul className="bg-white rounded-[8px] mt-2 border p-4 shadow-lg absolute w-full border-gray-200 max-h-60 overflow-y-auto transition-all duration-300 ease-in-out">
+                    <ul className="bg-white rounded-[8px] mt-2 border cursor-pointer p-4 shadow-lg absolute w-full border-gray-200 max-h-60 overflow-y-auto transition-all duration-300 ease-in-out">
                       {platforms.map((platform, i) => (
                         <li
                           key={i}
-                          onClick={() => handlePlatformChange(index, platform)}
-                          className="border-b border-gray-200 flex gap-3 items-center last:border-0 py-4 list-none"
+                          onClick={() => {
+                            if (selectedLinks.includes(platform)) return;
+                            handlePlatformChange(index, platform);
+                          }}
+                          className={`border-b ${
+                            selectedLinks.includes(platform)
+                              ? "text-[#633CFF]"
+                              : "text-gray-900"
+                          } border-gray-200 flex gap-3 items-center last:border-0 py-4 list-none`}
                         >
                           <Image
                             src={`/assets/images/icon-${platform.toLowerCase()}.svg`}
@@ -191,6 +214,12 @@ export default function Add_Link() {
                             width={32}
                             alt={`${platform}-icon`}
                             className="w-auto h-auto"
+                            style={{
+                              filter: `${
+                                selectedLinks.includes(platform) &&
+                                "invert(10%) brightness(200%)"
+                              }  `,
+                            }}
                           />
                           {platform}
                         </li>
