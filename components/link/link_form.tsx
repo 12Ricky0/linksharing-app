@@ -40,7 +40,7 @@ export default function Add_Link() {
 
   const [links, setLinks] = useState([
     {
-      platform: "GitHub",
+      platform: "",
       url: "",
       showList: false,
     },
