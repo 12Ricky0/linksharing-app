@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { UserProps } from "@/libs/definitions";
 
 const userSchema = new mongoose.Schema<UserProps>({
-  image: File,
+  image: {},
   email: String,
   password: String,
 });

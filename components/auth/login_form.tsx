@@ -1,7 +1,22 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, ChangeEvent } from "react";
 
 export default function Login_Form() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    repeat: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <section>
       <section className="md:flex flex-col h-screen justify-center items-center">
@@ -35,7 +50,7 @@ export default function Login_Form() {
                 />
 
                 <input
-                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px]"
+                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px]  focus:outline-[#633CFF] focus:outline-1 focus:border-[#633CFF]"
                   placeholder="e.g. alex@email.com"
                   type="email"
                 />
@@ -53,7 +68,7 @@ export default function Login_Form() {
                 />
 
                 <input
-                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px]"
+                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px] focus:outline-[#633CFF] focus:outline-1 focus:border-[#633CFF]"
                   placeholder="Enter your password"
                   type="password"
                 />
@@ -68,7 +83,7 @@ export default function Login_Form() {
           </form>
           <div className="flex flex-col font-normal text-[16px] text-center">
             <span className="text-gray-500">Don’t have an account?</span>
-            <Link href="/" className="text-[#633CFF]">
+            <Link href="/register" className="text-[#633CFF]">
               Create account
             </Link>
           </div>
