@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Sortable_Item from "../dnd/sortable";
+import { LinkProps } from "@/libs/definitions";
 
 export default function Add_Link() {
   const platforms = [
@@ -38,12 +39,12 @@ export default function Add_Link() {
     "Stack-Overflow": "#EC7100",
   };
 
-  const [links, setLinks] = useState([
-    {
-      platform: "",
-      url: "",
-      showList: false,
-    },
+  const [links, setLinks] = useState<LinkProps[]>([
+    // {
+    //   platform: "",
+    //   url: "",
+    //   showList: false,
+    // },
   ]);
 
   const handlePlatformChange = (index: number, newPlatform: string) => {
@@ -204,7 +205,7 @@ export default function Add_Link() {
                           }}
                           className={`border-b ${
                             selectedLinks.includes(platform)
-                              ? "text-[#633CFF]"
+                              ? "text-gray-400"
                               : "text-gray-900"
                           } border-gray-200 flex gap-3 items-center last:border-0 py-4 list-none`}
                         >

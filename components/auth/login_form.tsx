@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useActionState } from "react";
+import { authenticateUser } from "@/libs/action";
 
 export default function Login_Form() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    repeat: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,6 +16,8 @@ export default function Login_Form() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const [state, formAction, isPending] = useActionState(authenticateUser, null);
 
   return (
     <section>
@@ -37,7 +39,7 @@ export default function Login_Form() {
             </p>
           </article>
 
-          <form className="md:w-[396px]" action="">
+          <form className="md:w-[396px]" action={formAction}>
             <div className="font-normal text-[12px] text-gray-900">
               <label htmlFor="">Email address</label>
               <div className="relative">
@@ -48,12 +50,30 @@ export default function Login_Form() {
                   alt="email"
                   className="w-auto h-auto absolute left-4 top-[26px]"
                 />
-
                 <input
-                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px]  focus:outline-[#633CFF] focus:outline-1 focus:border-[#633CFF]"
+                  id="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={formData.email}
+                  className={`w-full py-4 pr-4 pl-12 mt-2 border  rounded-[8px]  ${
+                    state
+                      ? "focus:outline-red-500 focus:border-red-500 border-red-500"
+                      : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
+                  } focus:outline-1 `}
                   placeholder="e.g. alex@email.com"
                   type="email"
                 />
+                {state && (
+                  <div
+                    className={`flex mb-4 mt-[6px] items-center justify-end gap-2  text-[12px] ${
+                      state
+                        ? "text-red-500"
+                        : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                    } `}
+                  >
+                    <p>{state}</p>
+                  </div>
+                )}
               </div>
             </div>
             <div className="font-normal text-[12px] mt-6 text-gray-900">
@@ -68,17 +88,26 @@ export default function Login_Form() {
                 />
 
                 <input
-                  className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px] focus:outline-[#633CFF] focus:outline-1 focus:border-[#633CFF]"
-                  placeholder="Enter your password"
+                  className={`w-full py-4 pr-4 pl-12 mt-2 border  rounded-[8px]  ${
+                    state
+                      ? "focus:outline-red-500 focus:border-red-500 border-red-500"
+                      : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
+                  } focus:outline-1 `}
+                  placeholder="At least 8 characters"
                   type="password"
+                  name="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
             </div>
             <button
+              aria-disabled={isPending}
               className="bg-[#633CFF] cursor-pointer w-full font-semibold text-[16px] text-white my-6 rounded-[8px] py-4"
               type="submit"
             >
-              Login
+              {isPending ? "Loading..." : "Login"}
             </button>
           </form>
           <div className="flex flex-col font-normal text-[16px] text-center">

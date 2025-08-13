@@ -58,7 +58,7 @@ export default function Register_Form() {
                   onChange={handleChange}
                   value={formData.email}
                   className={`w-full py-4 pr-4 pl-12 mt-2 border  rounded-[8px]  ${
-                    state?.errors.email
+                    state?.errors?.email
                       ? "focus:outline-red-500 focus:border-red-500 border-red-500"
                       : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
                   } focus:outline-1 `}
@@ -91,7 +91,7 @@ export default function Register_Form() {
 
                 <input
                   className={`w-full py-4 pr-4 pl-12 mt-2 border  rounded-[8px]  ${
-                    state?.errors.password
+                    state?.errors?.password
                       ? "focus:outline-red-500 focus:border-red-500 border-red-500"
                       : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
                   } focus:outline-1 `}
@@ -128,7 +128,7 @@ export default function Register_Form() {
 
                 <input
                   className={`w-full py-4 pr-4 pl-12 mt-2 border  rounded-[8px]  ${
-                    state?.errors.confirm_password
+                    state?.errors?.confirm_password
                       ? "focus:outline-red-500 focus:border-red-500 border-red-500"
                       : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
                   } focus:outline-1 `}

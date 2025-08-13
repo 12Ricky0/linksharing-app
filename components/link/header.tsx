@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const path = usePathname();
   return (
     <header className="bg-white md:m-6 md:rounded-[8px] flex justify-between px-6 py-4">
       <Image
@@ -18,7 +21,11 @@ export default function Header() {
         className="w-auto h-auto hidden md:block cursor-pointer"
       />
       <div className="inline-flex md:gap-6">
-        <div className="w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 bg-gray-100 rounded-[8px] flex items-center justify-center ">
+        <div
+          className={`w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
+            path == "/link/home" && "bg-gray-100"
+          }  rounded-[8px] flex items-center justify-center`}
+        >
           <Image
             src="/assets/images/icon-link.svg"
             height={32}
@@ -26,7 +33,11 @@ export default function Header() {
             alt="link"
             className="w-auto h-auto"
           />
-          <span className="font-semibold text-[16px] text-gray-500 hidden md:block">
+          <span
+            className={`font-semibold text-[16px] ${
+              path == "/link/home" ? "text-[#633CFF]" : "text-gray-500"
+            }  hidden md:block`}
+          >
             Links
           </span>
         </div>

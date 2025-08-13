@@ -7,6 +7,17 @@ import { registrationCredentials } from "./definitions";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { notFound, redirect } from "next/navigation";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+
+export async function getUser(email: string) {
+  try {
+    await dbConnect();
+    return User.findOne({ email: email });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export async function registerUser(previous: any, formData: FormData) {
   const email = formData.get("email");
@@ -20,10 +31,10 @@ export async function registerUser(previous: any, formData: FormData) {
     confirm_password: repeat_password,
   });
 
-  //   const user = await getUser(email!.toString());
-  //   if (user) {
-  //     return { message: "Email already in use" };
-  //   }
+  const user = await getUser(email!.toString());
+  if (user) {
+    return { message: "Email already in use" };
+  }
 
   if (!validateCredentials.success) {
     return {
@@ -44,3 +55,22 @@ export async function registerUser(previous: any, formData: FormData) {
   }
   redirect("/");
 }
+
+export async function authenticateUser(prevState: any, formData: FormData) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+  redirect("/");
+}
+
+export async function Add_Link(id: string, prev: any, formData: FormData) {}
