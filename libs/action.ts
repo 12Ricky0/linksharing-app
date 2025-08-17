@@ -3,12 +3,13 @@
 import User from "@/models/userModel";
 import { dbConnect } from "./dbConnect";
 import Links from "@/models/linkModel";
-import { registrationCredentials } from "./definitions";
+import { registrationCredentials, linkSchema, LinkProps } from "./definitions";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { notFound, redirect } from "next/navigation";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { da } from "zod/locales";
 
 export async function getUser(email: string) {
   try {
@@ -73,4 +74,34 @@ export async function authenticateUser(prevState: any, formData: FormData) {
   redirect("/");
 }
 
-export async function Add_Link(id: string, prev: any, formData: FormData) {}
+export async function createLink(prev: any, formData: FormData) {
+  const session = await auth();
+  const user = session?.user?.email;
+  const platforms = formData.getAll("platform");
+  const links = formData.getAll("link");
+
+  const linksArraySchema = z.array(linkSchema);
+
+  const linksData = platforms.map((p, i) => ({
+    platform: p.toString(),
+    url: links[i].toString() || "",
+  }));
+
+  const validateLinks = linksArraySchema.safeParse(linksData);
+  if (!validateLinks.success) {
+    return {
+      errors: z.flattenError(validateLinks.error).fieldErrors,
+    };
+  }
+
+  try {
+    await dbConnect();
+    await Links.findOneAndUpdate(
+      { user },
+      { $set: { urls: validateLinks.data } },
+      { new: true, upsert: true } // upsert creates a new doc if none exists
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}

@@ -1,4 +1,3 @@
-import { Schema } from "./../node_modules/mongoose/types/index.d";
 export interface SortableProps {
   id: number;
   index: number;
@@ -34,3 +33,8 @@ export const registrationCredentials = z
     message: "Passwords don't match",
     path: ["confirm_password"],
   });
+
+export const linkSchema = z.object({
+  platform: z.string(),
+  url: z.url({ message: "Enter a Valid Link" }),
+});

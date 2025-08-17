@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import Sortable_Item from "../dnd/sortable";
 import { LinkProps } from "@/libs/definitions";
+import { createLink } from "@/libs/action";
 
 export default function Add_Link() {
   const platforms = [
@@ -39,13 +40,7 @@ export default function Add_Link() {
     "Stack-Overflow": "#EC7100",
   };
 
-  const [links, setLinks] = useState<LinkProps[]>([
-    // {
-    //   platform: "",
-    //   url: "",
-    //   showList: false,
-    // },
-  ]);
+  const [links, setLinks] = useState<LinkProps[]>([]);
 
   const handlePlatformChange = (index: number, newPlatform: string) => {
     const updated = [...links];
@@ -77,6 +72,8 @@ export default function Add_Link() {
     setLinks([...links, { platform: nextPlatform, url: "", showList: false }]);
   };
 
+  const [state, formAction, isPending] = useActionState(createLink, null);
+
   return (
     <section className=" lg:flex justify-between  gap-6 md:m-6">
       <div className="hidden flex-2/5 lg:flex items-center px-[126px] relative max-h-[700px] bg-white rounded-[8px]">
@@ -99,44 +96,44 @@ export default function Add_Link() {
           ))}
         </section>
       </div>
-      <section className="bg-white max-h-[864px] overflow-y-auto flex-6/12 md:rounded-[8px]">
-        <div className="m-4 p-6  rounded-[8px]">
-          <article>
-            <h1 className="font-bold text-2xl text-gray-900 mb-2">
-              Customize your links
-            </h1>
-            <p className="font-normal text-[16px] text-gray-500">
-              Add/edit/remove links below and then share all your profiles with
-              the world!
-            </p>
-
-            <button
-              onClick={addLink}
-              className="border cursor-pointer py-4 border-[#633CFF] w-full rounded-[8px] text-[16px] font-semibold text-[#633CFF] mt-[40px]"
-            >
-              + Add new link
-            </button>
-          </article>
-          {links.length == 0 && (
-            <article className="bg-gray-50 mt-6 px-6 py-8 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
-              <Image
-                src="/assets/images/illustration-empty.svg"
-                height={32}
-                width={32}
-                alt="logo"
-                className="w-auto h-auto "
-              />
-              <h1 className="font-bold text-2xl my-6 text-gray-900">
-                Let’s get you started
+      <form action={formAction} className="w-full ">
+        <section className="bg-white max-h-[864px] overflow-y-auto flex-6/12 md:rounded-[8px]">
+          <div className="m-4 p-6  rounded-[8px]">
+            <article>
+              <h1 className="font-bold text-2xl text-gray-900 mb-2">
+                Customize your links
               </h1>
               <p className="font-normal text-[16px] text-gray-500">
-                Use the “Add new link” button to get started. Once you have more
-                than one link, you can reorder and edit them. We’re here to help
-                you share your profiles with everyone!{" "}
+                Add/edit/remove links below and then share all your profiles
+                with the world!
               </p>
+
+              <button
+                onClick={addLink}
+                className="border cursor-pointer py-4 border-[#633CFF] w-full rounded-[8px] text-[16px] font-semibold text-[#633CFF] mt-[40px]"
+              >
+                + Add new link
+              </button>
             </article>
-          )}
-          <form action="" className="w-full ">
+            {links.length == 0 && (
+              <article className="bg-gray-50 mt-6 px-6 py-8 md:flex flex-col justify-center items-center md:px-[96px] rounded-[8px]">
+                <Image
+                  src="/assets/images/illustration-empty.svg"
+                  height={32}
+                  width={32}
+                  alt="logo"
+                  className="w-auto h-auto "
+                />
+                <h1 className="font-bold text-2xl my-6 text-gray-900">
+                  Let’s get you started
+                </h1>
+                <p className="font-normal text-[16px] text-gray-500">
+                  Use the “Add new link” button to get started. Once you have
+                  more than one link, you can reorder and edit them. We’re here
+                  to help you share your profiles with everyone!{" "}
+                </p>
+              </article>
+            )}
             {links.map((link, index) => (
               <div
                 key={index}
@@ -184,6 +181,11 @@ export default function Add_Link() {
                         className="w-auto h-auto"
                       />
                       <span>{link.platform}</span>
+                      <input
+                        type="hidden"
+                        name="platform"
+                        value={link.platform}
+                      />
                     </div>
                     <Image
                       src="/assets/images/icon-chevron-down.svg"
@@ -230,12 +232,18 @@ export default function Add_Link() {
                 </section>{" "}
                 <div className="mt-4">
                   <label
-                    htmlFor=""
+                    htmlFor="link"
                     className=" font-normal text-[12px] text-gray-900"
                   >
                     Link
                   </label>
-                  <div className="border mt-2 w-full p-4 gap-4 border-gray-200 flex items-center rounded-[8px]">
+                  <div
+                    className={`border ${
+                      state?.errors[index]
+                        ? "border-red-500"
+                        : "border-gray-200"
+                    } mt-2 w-full p-4 gap-4  flex items-center rounded-[8px]`}
+                  >
                     <Image
                       src="/assets/images/icon-link.svg"
                       height={32}
@@ -244,8 +252,9 @@ export default function Add_Link() {
                       className="w-auto h-auto"
                     />
                     <input
-                      type="text"
-                      placeholder={`Enter your ${link.platform} URL`}
+                      name="link"
+                      id="link"
+                      placeholder={`e.g. https://www.${link.platform.toLowerCase()}.com/johnappleseed`}
                       className="flex-1 outline-none text-sm"
                       value={link.url}
                       onChange={(e) => {
@@ -254,18 +263,45 @@ export default function Add_Link() {
                         setLinks(updated);
                       }}
                     />
+                    {state?.errors[index] && (
+                      <div
+                        key={link.platform}
+                        className={`md:flex hidden  items-center justify-end gap-2  text-[12px] ${
+                          state?.errors[index]
+                            ? "text-red-500"
+                            : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                        } `}
+                      >
+                        <p>{state?.errors[index]}</p>
+                      </div>
+                    )}
                   </div>
+                  {state?.errors[index] && (
+                    <div
+                      key={link.platform}
+                      className={`flex md:hidden mb-4 mt-[6px]  items-center justify-end gap-2  text-[12px] ${
+                        state?.errors[index]
+                          ? "text-red-500"
+                          : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                      } `}
+                    >
+                      <p>{state?.errors[index]}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-          </form>
-        </div>
-        <div className="border-t  mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
-          <button className="bg-[#633CFF] m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]">
-            Save
-          </button>
-        </div>
-      </section>
+          </div>
+          <div className="border-t  mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
+            <button
+              type="submit"
+              className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
+            >
+              {isPending ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </section>
+      </form>
     </section>
   );
 }
