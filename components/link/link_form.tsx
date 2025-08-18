@@ -5,7 +5,7 @@ import Sortable_Item from "../dnd/sortable";
 import { LinkProps } from "@/libs/definitions";
 import { createLink } from "@/libs/action";
 
-export default function Add_Link() {
+export default function Add_Link({ data }: { data: LinkProps[] }) {
   const platforms = [
     "GitHub",
     "Frontend-Mentor",
@@ -40,7 +40,7 @@ export default function Add_Link() {
     "Stack-Overflow": "#EC7100",
   };
 
-  const [links, setLinks] = useState<LinkProps[]>([]);
+  const [links, setLinks] = useState<LinkProps[]>(data ?? []);
 
   const handlePlatformChange = (index: number, newPlatform: string) => {
     const updated = [...links];

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const path = usePathname();
@@ -21,7 +22,8 @@ export default function Header() {
         className="w-auto h-auto hidden md:block cursor-pointer"
       />
       <div className="inline-flex md:gap-6">
-        <div
+        <Link
+          href="/link/home"
           className={`w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
             path == "/link/home" && "bg-gray-100"
           }  rounded-[8px] flex items-center justify-center`}
@@ -40,8 +42,11 @@ export default function Header() {
           >
             Links
           </span>
-        </div>
-        <div className="w-[68px] cursor-pointer md:w-auto md:gap-2 flex items-center justify-center ">
+        </Link>
+        <Link
+          href="/link/profile"
+          className="w-[68px] cursor-pointer md:w-auto md:gap-2 flex items-center justify-center "
+        >
           <Image
             src="/assets/images/icon-profile-details-header.svg"
             height={32}
@@ -49,10 +54,14 @@ export default function Header() {
             alt="profile"
             className="w-auto h-auto"
           />
-          <span className="font-semibold text-[16px] text-gray-500 hidden md:block">
+          <span
+            className={`font-semibold text-[16px] ${
+              path == "/link/profile" ? "text-[#633CFF]" : "text-gray-500"
+            }  hidden md:block`}
+          >
             Profile Details
           </span>
-        </div>
+        </Link>
       </div>
       <div className="flex cursor-pointer items-center justify-center size-[52px] md:size-auto md:py-4 border-2 md:px-6 border-[#633CFF] rounded-[8px]">
         <Image

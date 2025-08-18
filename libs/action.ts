@@ -10,6 +10,7 @@ import { notFound, redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { da } from "zod/locales";
+import { revalidatePath } from "next/cache";
 
 export async function getUser(email: string) {
   try {
@@ -104,4 +105,5 @@ export async function createLink(prev: any, formData: FormData) {
   } catch (error) {
     console.error(error);
   }
+  revalidatePath("/link/home");
 }

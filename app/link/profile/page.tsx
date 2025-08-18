@@ -1,5 +1,6 @@
 import Header from "@/components/link/header";
 import Add_Link from "@/components/link/link_form";
+import Profile_Details from "@/components/link/profile";
 import getAllLinks from "@/libs/data";
 export default async function Home() {
   const req = await getAllLinks();
@@ -7,7 +8,8 @@ export default async function Home() {
   return (
     <main className="">
       <Header />
-      <Add_Link data={data[0].urls} />
+      <Profile_Details />
+      {/* <Add_Link data={data[0].urls} /> */}
     </main>
   );
 }
