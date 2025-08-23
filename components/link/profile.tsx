@@ -2,7 +2,9 @@
 import Image from "next/image";
 import { LinkProps } from "@/libs/definitions";
 import Sortable_Item from "../dnd/sortable";
-import { useState } from "react";
+import { useState, useActionState, ChangeEvent } from "react";
+import { createProfile } from "@/libs/action";
+import { useSession } from "next-auth/react";
 
 export default function Profile_Details({ data }: { data: LinkProps[] }) {
   const colors = {
@@ -22,14 +24,38 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
     "Stack-Overflow": "#EC7100",
   };
 
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string>();
+  const session = useSession();
+  console.log(session);
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreview(url);
+    if (!file) return; // no file selected
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      alert("File is too large! Max 4.5MB.");
+      e.target.value = ""; // reset input
+      return; // stop here
     }
+
+    const url = URL.createObjectURL(file);
+    setPreview(url);
   };
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+  });
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const [state, formAction, isPending] = useActionState(createProfile, null);
 
   return (
     <div className=" lg:flex justify-between gap-6 md:m-6">
@@ -54,105 +80,162 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
         </section>
       </div>
       <div className="bg-white w-full md:rounded-[8px]">
-        <section className="m-4 p-6  rounded-[8px]">
-          <article>
-            <h1 className="font-bold text-2xl text-gray-900 mb-2">
-              Profile Details
-            </h1>
-            <p className="font-normal text-[16px] text-gray-500">
-              Add your details to create a personal touch to your profile.{" "}
-            </p>
-          </article>
-
-          <article className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-row justify-between items-center md:px-[24px] rounded-[8px]">
-            <h3 className="font-normal text-[16px] mb-4 md:mb-0 text-gray-500">
-              Profile picture
-            </h3>
-            <div className="md:inline-flex items-center gap-6">
-              <div className="bg-gray-100 mb-6 md:mb-0 rounded-[8px] size-[150px] flex justify-center items-center relative flex-col gap-2">
-                {preview ? (
-                  <Image
-                    src={preview}
-                    alt="Uploaded Preview"
-                    fill
-                    className="rounded-[8px]"
-                  />
-                ) : (
-                  <div className="inline-flex justify-center flex-col items-center">
+        <form action={formAction}>
+          <section className="m-4 p-6  rounded-[8px]">
+            <article>
+              <h1 className="font-bold text-2xl text-gray-900 mb-2">
+                Profile Details
+              </h1>
+              <p className="font-normal text-[16px] text-gray-500">
+                Add your details to create a personal touch to your profile.{" "}
+              </p>
+            </article>
+            <article className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-row justify-between items-center md:px-[24px] rounded-[8px]">
+              <h3 className="font-normal text-[16px] mb-4 md:mb-0 text-gray-500">
+                Profile picture
+              </h3>
+              <div className="md:inline-flex items-center gap-6">
+                <div className="bg-gray-100 mb-6 md:mb-0 rounded-[8px] size-[150px] flex justify-center items-center relative flex-col gap-2">
+                  {preview ? (
                     <Image
-                      src="/assets/images/icon-upload-image.svg"
-                      height={32}
-                      width={32}
-                      alt="upload"
-                      className="w-auto h-auto "
+                      src={preview}
+                      alt="Uploaded Preview"
+                      fill
+                      className="rounded-[8px]"
                     />
-                    <h1 className="text-[16px] font-semibold text-[#633CFF]">
-                      + Upload Image
-                    </h1>
-                    <input
-                      type="file"
-                      accept="image/png, image/jpeg"
-                      onChange={handleImageUpload}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
-                    />
-                  </div>
-                )}
+                  ) : (
+                    <div className="inline-flex justify-center flex-col items-center">
+                      <Image
+                        src="/assets/images/icon-upload-image.svg"
+                        height={32}
+                        width={32}
+                        alt="upload"
+                        className="w-auto h-auto "
+                      />
+                      <h1 className="text-[16px] font-semibold text-[#633CFF]">
+                        + Upload Image
+                      </h1>
+                      <input
+                        type="file"
+                        // name="dp"
+                        // id="dp"
+                        accept="image/png, image/jpeg"
+                        onChange={handleImageUpload}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                    </div>
+                  )}
+                </div>
+                <p className="font-normal md:block hidden  text-[12px] text-gray-500">
+                  Image must be below 1024x1024px.
+                  <br /> Use PNG or JPG format.{" "}
+                </p>
+                <p className="font-normal md:hidden text-[12px] text-gray-500">
+                  Image must be below 1024x1024px. Use PNG or JPG format.{" "}
+                </p>
               </div>
-              <p className="font-normal md:block hidden  text-[12px] text-gray-500">
-                Image must be below 1024x1024px.
-                <br /> Use PNG or JPG format.{" "}
-              </p>
-              <p className="font-normal md:hidden text-[12px] text-gray-500">
-                Image must be below 1024x1024px. Use PNG or JPG format.{" "}
-              </p>
-            </div>
-          </article>
-          <form className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-col justify-center items-center md:px-[24px] rounded-[8px]">
-            <div className="font-normal w-full text-[12px] text-gray-900">
-              <div className="md:flex justify-between items-center md:w-full">
-                <label className="" htmlFor="">
-                  First Name*
-                </label>
-                <input
-                  className="w-full md:w-[70%] py-4 pr-4 pl-12 my-2 border border-gray-200 rounded-[8px]"
-                  placeholder=""
-                  type="text"
-                />
-              </div>
-              <div className="md:flex justify-between items-center md:w-full">
-                <label htmlFor="">Last Name*</label>
-                <input
-                  className="w-full md:w-[70%] py-4 pr-4 pl-12 my-2 border border-gray-200 rounded-[8px]"
-                  placeholder=""
-                  type="text"
-                />
-              </div>
-              <div className="md:flex justify-between items-center md:w-full">
-                <label htmlFor="">Email</label>
-                <div className="relative md:w-[70%]">
-                  <Image
-                    src="/assets/images/icon-email.svg"
-                    height={16}
-                    width={16}
-                    alt="email"
-                    className="w-auto h-auto absolute left-4 top-[26px]"
+            </article>
+            <section className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-col justify-center items-center md:px-[24px] rounded-[8px]">
+              <div className="font-normal w-full text-[12px] text-gray-900">
+                <div className="md:flex justify-between items-center md:w-full">
+                  <label className="first_name" htmlFor="">
+                    First Name*
+                  </label>
+                  <input
+                    name="first_name"
+                    className={`w-full md:w-[70%] py-4 pr-4 pl-4 my-2 border  rounded-[8px]  ${
+                      state?.errors.fname
+                        ? "focus:outline-red-500 focus:border-red-500 border-red-500"
+                        : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
+                    } focus:outline-1 `}
+                    placeholder="e.g. John"
+                    type="text"
+                    id="first_name"
+                    onChange={handleChange}
+                    value={formData.first_name}
                   />
+                  {state?.errors.fname && (
+                    <div
+                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
+                        state?.errors.fname
+                          ? "text-red-500"
+                          : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                      } `}
+                    >
+                      <p>{state?.errors.fname}</p>
+                    </div>
+                  )}
+
+                  {/* <input type="hidden" value={preview} name="dp" /> */}
+                </div>
+                <div className="md:flex justify-between items-center md:w-full">
+                  <label htmlFor="last_name">Last Name*</label>
+                  <input
+                    name="last_name"
+                    className={`w-full md:w-[70%] py-4 pr-4 pl-4 my-2 border  rounded-[8px]  ${
+                      state?.errors.lname
+                        ? "focus:outline-red-500 focus:border-red-500 border-red-500"
+                        : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
+                    } focus:outline-1 `}
+                    placeholder="e.g. Appleseed"
+                    type="text"
+                    id="last_name"
+                    onChange={handleChange}
+                    value={formData.last_name}
+                  />
+                  {state?.errors.lname && (
+                    <div
+                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
+                        state?.errors.lname
+                          ? "text-red-500"
+                          : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                      } `}
+                    >
+                      <p>{state?.errors.lname}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="md:flex justify-between items-center md:w-full">
+                  <label htmlFor="email">Email</label>
 
                   <input
-                    className="w-full py-4 pr-4 pl-12 mt-2 border border-gray-200 rounded-[8px]"
+                    className={`w-full md:w-[70%] py-4 pr-4 pl-4 my-2 border  rounded-[8px]  ${
+                      state?.errors.email
+                        ? "focus:outline-red-500 focus:border-red-500 border-red-500"
+                        : "focus:outline-[#633CFF] focus:border-[#633CFF] border-gray-200"
+                    } focus:outline-1 `}
                     placeholder="e.g. alex@email.com"
                     type="email"
+                    name="email"
+                    id="email"
+                    readOnly
+                    onChange={handleChange}
+                    value={formData.email}
                   />
+                  {/* {state?.errors.email && (
+                    <div
+                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
+                        state?.errors.email
+                          ? "text-red-500"
+                          : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                      } `}
+                    >
+                      <p>{state?.errors.email}</p>
+                    </div>
+                  )} */}
                 </div>
               </div>
-            </div>
-          </form>
-        </section>
-        <div className="border-t mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
-          <button className="bg-[#633CFF] m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]">
-            Save
-          </button>
-        </div>
+            </section>
+          </section>
+          <div className="border-t mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
+            <button
+              type="submit"
+              className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
+            >
+              Save
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

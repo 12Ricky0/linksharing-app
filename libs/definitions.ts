@@ -14,7 +14,7 @@ export interface LinkProps {
 
 export type UserProps = {
   _id?: string;
-  image?: File;
+  image?: string;
   name?: string;
   email: string;
   password: string;
@@ -38,4 +38,10 @@ export const registrationCredentials = z
 export const linkSchema = z.object({
   platform: z.string(),
   url: z.url({ message: "Enter a Valid Link" }),
+});
+
+export const profileSchema = z.object({
+  fname: z.string().min(1, { message: "Can´t be empty" }),
+  lname: z.string().min(1, { message: "Can´t be empty" }),
+  email: z.email({ message: "Please enter a valid email address" }),
 });

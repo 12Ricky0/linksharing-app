@@ -3,13 +3,17 @@
 import User from "@/models/userModel";
 import { dbConnect } from "./dbConnect";
 import Links from "@/models/linkModel";
-import { registrationCredentials, linkSchema, LinkProps } from "./definitions";
+import {
+  registrationCredentials,
+  linkSchema,
+  LinkProps,
+  profileSchema,
+} from "./definitions";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { notFound, redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { da } from "zod/locales";
 import { revalidatePath } from "next/cache";
 
 export async function getUser(email: string) {
@@ -106,4 +110,25 @@ export async function createLink(prev: any, formData: FormData) {
     console.error(error);
   }
   revalidatePath("/link/home");
+}
+
+export async function createProfile(prev: any, formData: FormData) {
+  const firstName = formData.get("first_name");
+  const lastName = formData.get("last_name");
+  const email = formData.get("email");
+  const picture = formData.get("dp");
+  const session = await auth();
+  const user = session?.user?.email;
+
+  const validateProfile = profileSchema.safeParse({
+    fname: firstName,
+    lname: lastName,
+    email: email,
+  });
+
+  if (!validateProfile.success) {
+    return {
+      errors: z.flattenError(validateProfile.error).fieldErrors,
+    };
+  }
 }

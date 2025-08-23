@@ -153,7 +153,6 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                   <button
                     onClick={(e) => {
                       setLinks(links.filter((_, i) => i !== index));
-                      //   console.log(index);
                       e.preventDefault();
                     }}
                     className="text-gray-500 text-[16px] cursor-pointer font-normal"
