@@ -14,7 +14,10 @@ export interface LinkProps {
 
 export type UserProps = {
   _id?: string;
-  image?: string;
+  image?: {
+    data: Buffer;
+    contentType: string;
+  };
   name?: string;
   email: string;
   password: string;

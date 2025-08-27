@@ -4,9 +4,18 @@ import { LinkProps } from "@/libs/definitions";
 import Sortable_Item from "../dnd/sortable";
 import { useState, useActionState, ChangeEvent } from "react";
 import { createProfile } from "@/libs/action";
-import { useSession } from "next-auth/react";
 
-export default function Profile_Details({ data }: { data: LinkProps[] }) {
+export default function Profile_Details({
+  data,
+  email,
+  name,
+  picture,
+}: {
+  data: LinkProps[];
+  email: string;
+  name: string;
+  picture: string;
+}) {
   const colors = {
     GitHub: "#1A1A1A",
     "Frontend-Mentor": "#D9D9D9",
@@ -24,9 +33,7 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
     "Stack-Overflow": "#EC7100",
   };
 
-  const [preview, setPreview] = useState<string>();
-  const session = useSession();
-  console.log(session);
+  const [preview, setPreview] = useState<string | null>();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,7 +52,6 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
-    email: "",
   });
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -115,16 +121,16 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                       <h1 className="text-[16px] font-semibold text-[#633CFF]">
                         + Upload Image
                       </h1>
-                      <input
-                        type="file"
-                        // name="dp"
-                        // id="dp"
-                        accept="image/png, image/jpeg"
-                        onChange={handleImageUpload}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                      />
                     </div>
                   )}
+                  <input
+                    type="file"
+                    name="dp"
+                    id="dp"
+                    accept="image/png, image/jpeg"
+                    onChange={handleImageUpload}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
                 </div>
                 <p className="font-normal md:block hidden  text-[12px] text-gray-500">
                   Image must be below 1024x1024px.
@@ -152,11 +158,12 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                     type="text"
                     id="first_name"
                     onChange={handleChange}
-                    value={formData.first_name}
+                    // value={formData.first_name}
+                    defaultValue={name.split(" ")[0]}
                   />
                   {state?.errors.fname && (
                     <div
-                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
+                      className={`md:flex text-right md:absolute md:right-[100px] md:items-center md:justify-end gap-2  text-[12px] ${
                         state?.errors.fname
                           ? "text-red-500"
                           : "text-tetiary-semi-dark dark:text-secondary-light-gray"
@@ -165,10 +172,9 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                       <p>{state?.errors.fname}</p>
                     </div>
                   )}
-
-                  {/* <input type="hidden" value={preview} name="dp" /> */}
                 </div>
-                <div className="md:flex justify-between items-center md:w-full">
+
+                <div className="md:flex justify-between mt-2 items-center md:w-full">
                   <label htmlFor="last_name">Last Name*</label>
                   <input
                     name="last_name"
@@ -181,11 +187,12 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                     type="text"
                     id="last_name"
                     onChange={handleChange}
-                    value={formData.last_name}
+                    // value={formData.last_name}
+                    defaultValue={name.split(" ")[1]}
                   />
                   {state?.errors.lname && (
                     <div
-                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
+                      className={`md:flex text-right md:absolute md:right-[100px] md:items-center md:justify-start gap-2  text-[12px] ${
                         state?.errors.lname
                           ? "text-red-500"
                           : "text-tetiary-semi-dark dark:text-secondary-light-gray"
@@ -195,7 +202,7 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                     </div>
                   )}
                 </div>
-                <div className="md:flex justify-between items-center md:w-full">
+                <div className="md:flex justify-between mt-2 items-center md:w-full">
                   <label htmlFor="email">Email</label>
 
                   <input
@@ -209,8 +216,7 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
                     name="email"
                     id="email"
                     readOnly
-                    onChange={handleChange}
-                    value={formData.email}
+                    defaultValue={email}
                   />
                   {/* {state?.errors.email && (
                     <div
@@ -232,7 +238,7 @@ export default function Profile_Details({ data }: { data: LinkProps[] }) {
               type="submit"
               className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
             >
-              Save
+              {isPending ? <p className="animate-pulse">Saving...</p> : " Save"}
             </button>
           </div>
         </form>

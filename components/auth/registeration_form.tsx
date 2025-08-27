@@ -5,7 +5,7 @@ import { registerUser } from "@/libs/action";
 import { useActionState, useState, ChangeEvent } from "react";
 
 export default function Register_Form() {
-  const [state, formAction] = useActionState(registerUser, null);
+  const [state, formAction, isPending] = useActionState(registerUser, null);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -159,7 +159,11 @@ export default function Register_Form() {
               className="bg-[#633CFF] cursor-pointer w-full font-semibold text-[16px] text-white my-6 rounded-[8px] py-4"
               type="submit"
             >
-              Create new account
+              {isPending ? (
+                <p className="animate-pulse">Creating...</p>
+              ) : (
+                "Create new account"
+              )}
             </button>
           </form>
           <div className="flex flex-col md:flex-row md:justify-center font-normal text-[16px] text-center">

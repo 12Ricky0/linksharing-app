@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 export default function Header() {
   const path = usePathname();
@@ -13,6 +14,7 @@ export default function Header() {
         width={32}
         alt="logo"
         className="w-auto h-auto md:hidden"
+        onClick={() => signOut()}
       />
       <Image
         src="/assets/images/logo-devlinks-large.svg"
@@ -20,6 +22,7 @@ export default function Header() {
         width={32}
         alt="logo"
         className="w-auto h-auto hidden md:block cursor-pointer"
+        onClick={() => signOut()}
       />
       <div className="inline-flex md:gap-6">
         <Link

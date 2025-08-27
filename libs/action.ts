@@ -53,7 +53,12 @@ export async function registerUser(previous: any, formData: FormData) {
 
     const { email, password } = validateCredentials.data;
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = { image: "", email: email, password: hashedPassword };
+    const user = {
+      image: undefined,
+      name: "",
+      email: email,
+      password: hashedPassword,
+    };
     await User.create(user);
   } catch (error) {
     console.error(error);
@@ -115,15 +120,15 @@ export async function createLink(prev: any, formData: FormData) {
 export async function createProfile(prev: any, formData: FormData) {
   const firstName = formData.get("first_name");
   const lastName = formData.get("last_name");
-  const email = formData.get("email");
+  const user = formData.get("email");
   const picture = formData.get("dp");
-  const session = await auth();
-  const user = session?.user?.email;
+  // const session = await auth();
+  // const user = session?.user?.email;
 
   const validateProfile = profileSchema.safeParse({
     fname: firstName,
     lname: lastName,
-    email: email,
+    email: user,
   });
 
   if (!validateProfile.success) {
@@ -131,4 +136,17 @@ export async function createProfile(prev: any, formData: FormData) {
       errors: z.flattenError(validateProfile.error).fieldErrors,
     };
   }
+
+  const { fname, lname, email } = validateProfile.data;
+
+  // try {
+  //   await dbConnect();
+  //   const currentUser = await User.findOne({ email: email });
+  //   currentUser.image = picture;
+  //   currentUser.name = fname + " " + lname;
+  //   await currentUser.save();
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  // revalidatePath("/link/profile");
 }
