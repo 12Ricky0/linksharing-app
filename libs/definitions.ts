@@ -23,6 +23,35 @@ export type UserProps = {
   password: string;
 };
 
+type UrlProps = {
+  _id?: string;
+  platform: string;
+  url: string;
+};
+
+export type UserUrlsProps = {
+  _id?: string;
+  user: string;
+  urls: UrlProps[];
+};
+
+export enum Colors {
+  GitHub = "#1A1A1A",
+  "Frontend-Mentor" = "#D9D9D9",
+  Twitter = "#43B7E9",
+  LinkedIn = "#2D68FF",
+  YouTube = "#EE3939",
+  Facebook = "#2442AC",
+  Twitch = "#EE3FC8",
+  Devto = "#333333",
+  Codewars = "#8A1A50",
+  Codepen = "#EF6C35",
+  freeCodeCamp = "#302267",
+  GitLab = "#EB4925",
+  Hashnode = "#0330D1",
+  "Stack-Overflow" = "#EC7100",
+}
+
 // Schema
 
 import { z } from "zod";

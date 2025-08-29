@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useActionState } from "react";
 import Sortable_Item from "../dnd/sortable";
-import { LinkProps } from "@/libs/definitions";
+import { LinkProps, Colors } from "@/libs/definitions";
 import { createLink } from "@/libs/action";
 
 export default function Add_Link({ data }: { data: LinkProps[] }) {
@@ -22,23 +22,6 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
     "Hashnode",
     "Stack-Overflow",
   ];
-
-  const colors = {
-    GitHub: "#1A1A1A",
-    "Frontend-Mentor": "#D9D9D9",
-    Twitter: "#43B7E9",
-    LinkedIn: "#2D68FF",
-    YouTube: "#EE3939",
-    Facebook: "#2442AC",
-    Twitch: "#EE3FC8",
-    Devto: "#333333",
-    Codewars: "#8A1A50",
-    Codepen: "#8A1A50",
-    freeCodeCamp: "#302267",
-    GitLab: "#EB4925",
-    Hashnode: "#0330D1",
-    "Stack-Overflow": "#EC7100",
-  };
 
   const [links, setLinks] = useState<LinkProps[]>(data ?? []);
 
@@ -90,7 +73,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
               key={index}
               index={index}
               id={index}
-              color={colors[link.platform]}
+              color={Colors[link.platform]}
               name={link.platform}
             />
           ))}

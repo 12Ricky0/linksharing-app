@@ -66,7 +66,10 @@ export default function Header() {
           </span>
         </Link>
       </div>
-      <div className="flex cursor-pointer items-center justify-center size-[52px] md:size-auto md:py-4 border-2 md:px-6 border-[#633CFF] rounded-[8px]">
+      <Link
+        href="/link/preview"
+        className="flex cursor-pointer items-center justify-center size-[52px] md:size-auto md:py-4 border-2 md:px-6 border-[#633CFF] rounded-[8px]"
+      >
         <Image
           src="/assets/images/icon-preview-header.svg"
           height={32}
@@ -77,7 +80,7 @@ export default function Header() {
         <span className="font-semibold text-[16px] text-[#633CFF] hidden md:block">
           Preview
         </span>
-      </div>
+      </Link>
     </header>
   );
 }
