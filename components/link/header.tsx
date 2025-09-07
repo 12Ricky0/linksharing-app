@@ -48,7 +48,9 @@ export default function Header() {
         </Link>
         <Link
           href="/link/profile"
-          className="w-[68px] cursor-pointer md:w-auto md:gap-2 flex items-center justify-center "
+          className={`w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
+            path == "/link/profile" && "bg-gray-100"
+          }  rounded-[8px] flex items-center justify-center`}
         >
           <Image
             src="/assets/images/icon-profile-details-header.svg"

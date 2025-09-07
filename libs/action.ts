@@ -54,7 +54,7 @@ export async function registerUser(previous: any, formData: FormData) {
     const { email, password } = validateCredentials.data;
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = {
-      image: undefined,
+      image: "",
       name: "",
       email: email,
       password: hashedPassword,
@@ -136,17 +136,16 @@ export async function createProfile(prev: any, formData: FormData) {
       errors: z.flattenError(validateProfile.error).fieldErrors,
     };
   }
-
   const { fname, lname, email } = validateProfile.data;
 
-  // try {
-  //   await dbConnect();
-  //   const currentUser = await User.findOne({ email: email });
-  //   currentUser.image = picture;
-  //   currentUser.name = fname + " " + lname;
-  //   await currentUser.save();
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  // revalidatePath("/link/profile");
+  try {
+    await dbConnect();
+    const currentUser = await User.findOne({ email: email });
+    // currentUser.image = picture;
+    currentUser.name = fname + " " + lname;
+    await currentUser.save();
+  } catch (error) {
+    console.error(error);
+  }
+  revalidatePath("/link/profile");
 }

@@ -11,13 +11,11 @@ export default async function Home() {
   const session = await auth();
   const user = session?.user?.email;
   const currentUser = await getUser(user!);
-  console.log(currentUser);
 
   return (
     <main className="">
       <Header />
       <Profile_Details
-        picture={currentUser.image}
         name={currentUser.name}
         email={user!}
         data={data[0].urls}

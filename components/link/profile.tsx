@@ -2,35 +2,61 @@
 import Image from "next/image";
 import { LinkProps, Colors } from "@/libs/definitions";
 import Sortable_Item from "../dnd/sortable";
-import { useState, useActionState, ChangeEvent } from "react";
+import { useState, useActionState, ChangeEvent, useEffect } from "react";
 import { createProfile } from "@/libs/action";
 
 export default function Profile_Details({
   data,
   email,
   name,
-  picture,
 }: {
   data: LinkProps[];
   email: string;
   name: string;
-  picture: string;
 }) {
   const [preview, setPreview] = useState<string | null>();
 
+  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return; // no file selected
+
+  //   if (file.size > 4.5 * 1024 * 1024) {
+  //     alert("File is too large! Max 4.5MB.");
+  //     e.target.value = ""; // reset input
+  //     return; // stop here
+  //   }
+
+  //   const url = URL.createObjectURL(file);
+  //   setPreview(url);
+  // };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return; // no file selected
+    if (!file) return;
 
     if (file.size > 4.5 * 1024 * 1024) {
       alert("File is too large! Max 4.5MB.");
-      e.target.value = ""; // reset input
-      return; // stop here
+      e.target.value = "";
+      return;
     }
 
-    const url = URL.createObjectURL(file);
-    setPreview(url);
+    // const url = URL.createObjectURL(file);
+    // setPreview(url);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      setPreview(base64String);
+      // localStorage.setItem("profileImage", base64String); // ✅ Save in localStorage
+    };
+    reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setPreview(savedImage);
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -218,6 +244,7 @@ export default function Profile_Details({
           </section>
           <div className="border-t mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
             <button
+              onClick={() => localStorage.setItem("profileImage", preview!)}
               type="submit"
               className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
             >

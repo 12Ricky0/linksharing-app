@@ -1,10 +1,27 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { UserUrlsProps, Colors } from "@/libs/definitions";
+import { useEffect, useState } from "react";
 
-export default function Preview({ data }: { data: UserUrlsProps }) {
+export default function Preview({
+  data,
+  name,
+}: {
+  data: UserUrlsProps;
+  name: string;
+}) {
   const router = useRouter();
+  // const savedImage = localStorage.getItem("profileImage");
+  const [url, setUrl] = useState("/assets/images/icon-upload-image.svg");
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setUrl(savedImage);
+    }
+  }, []);
 
   return (
     <section className="md:relative">
@@ -22,24 +39,26 @@ export default function Preview({ data }: { data: UserUrlsProps }) {
           </button>
         </header>
         <article className="mt-[50px] mx-auto px-[56px] py-12 md:rounded-[8px] md:bg-white md:w-[350px]">
-          <div className="size-[104px] rounded-full border-4 mx-auto  border-[#633CFF]">
-            {/* <Image
-            src="/assets/images/icon-upload-image.svg"
-            height={32}
-            width={32}
-            alt="profile-image"
-            className="w-auto h-auto "
-          /> */}
+          <div className="size-[104px] flex relative justify-center  rounded-full border-4 mx-auto  border-[#633CFF]">
+            <Image
+              src={url!}
+              height={104}
+              width={104}
+              alt="profile-image"
+              className="  rounded-full "
+            />
           </div>
           <h1 className="text-[32px] mt-6 font-bold text-center text-gray-900">
-            Ben Wright
+            {name}
           </h1>
           <p className="text-[16px] font-normal mt-2 text-center text-gray-500">
             {data.user}
           </p>
           <div className="mt-14 flex flex-col gap-6">
             {data.urls.map((link) => (
-              <div
+              <Link
+                href={link.url}
+                target="_blank"
                 key={link._id}
                 className=" p-4 flex justify-between items-center rounded-[8px]"
                 style={{ backgroundColor: Colors[link.platform] }}
@@ -64,50 +83,8 @@ export default function Preview({ data }: { data: UserUrlsProps }) {
                   alt="arrow-right"
                   className="w-auto h-auto "
                 />
-              </div>
+              </Link>
             ))}
-            {/* <div className="bg-red-500 p-4 flex justify-between items-center rounded-[8px]">
-              <div className="inline-flex gap-2 items-center">
-                <Image
-                  src="/assets/images/icon-youtube.svg"
-                  height={32}
-                  width={32}
-                  alt="github-image"
-                  className="w-auto h-auto "
-                />
-                <span className="text-[16px] font-normal text-white">
-                  YouTube
-                </span>
-              </div>
-              <Image
-                src="/assets/images/icon-arrow-right.svg"
-                height={32}
-                width={32}
-                alt="arrow-right"
-                className="w-auto h-auto "
-              />
-            </div> */}
-            {/* <div className="bg-blue-500 p-4 flex justify-between items-center rounded-[8px]">
-              <div className="inline-flex gap-2 items-center">
-                <Image
-                  src="/assets/images/icon-linkedin.svg"
-                  height={32}
-                  width={32}
-                  alt="github-image"
-                  className="w-auto h-auto "
-                />
-                <span className="text-[16px] font-normal text-white">
-                  LinkedIn
-                </span>
-              </div>
-              <Image
-                src="/assets/images/icon-arrow-right.svg"
-                height={32}
-                width={32}
-                alt="arrow-right"
-                className="w-auto h-auto "
-              />
-            </div> */}
           </div>
         </article>
       </div>
