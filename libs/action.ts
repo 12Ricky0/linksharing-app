@@ -6,7 +6,6 @@ import Links from "@/models/linkModel";
 import {
   registrationCredentials,
   linkSchema,
-  LinkProps,
   profileSchema,
 } from "./definitions";
 import { z } from "zod";
@@ -121,7 +120,6 @@ export async function createProfile(prev: any, formData: FormData) {
   const firstName = formData.get("first_name");
   const lastName = formData.get("last_name");
   const user = formData.get("email");
-  const picture = formData.get("dp");
   // const session = await auth();
   // const user = session?.user?.email;
 
