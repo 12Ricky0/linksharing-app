@@ -3,6 +3,7 @@ export interface SortableProps {
   index: number;
   color: string;
   name: string;
+  link: string;
 }
 
 export interface LinkProps {

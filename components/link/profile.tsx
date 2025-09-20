@@ -16,20 +16,6 @@ export default function Profile_Details({
 }) {
   const [preview, setPreview] = useState<string | null>();
 
-  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (!file) return; // no file selected
-
-  //   if (file.size > 4.5 * 1024 * 1024) {
-  //     alert("File is too large! Max 4.5MB.");
-  //     e.target.value = ""; // reset input
-  //     return; // stop here
-  //   }
-
-  //   const url = URL.createObjectURL(file);
-  //   setPreview(url);
-  // };
-
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -46,7 +32,6 @@ export default function Profile_Details({
     reader.onloadend = () => {
       const base64String = reader.result as string;
       setPreview(base64String);
-      // localStorage.setItem("profileImage", base64String); // ✅ Save in localStorage
     };
     reader.readAsDataURL(file);
   };
@@ -86,6 +71,7 @@ export default function Profile_Details({
           {data.map((link, index) => (
             <Sortable_Item
               key={index}
+              link={link.url}
               index={index}
               id={index}
               color={Colors[link?.platform]}
@@ -167,7 +153,6 @@ export default function Profile_Details({
                     type="text"
                     id="first_name"
                     onChange={handleChange}
-                    // value={formData.first_name}
                     defaultValue={name.split(" ")[0]}
                   />
                   {state?.errors.fname && (
@@ -196,7 +181,6 @@ export default function Profile_Details({
                     type="text"
                     id="last_name"
                     onChange={handleChange}
-                    // value={formData.last_name}
                     defaultValue={name.split(" ")[1]}
                   />
                   {state?.errors.lname && (
@@ -227,17 +211,6 @@ export default function Profile_Details({
                     readOnly
                     defaultValue={email}
                   />
-                  {/* {state?.errors.email && (
-                    <div
-                      className={`md:flex hidden md:absolute md:right-[100px] items-center justify-end gap-2  text-[12px] ${
-                        state?.errors.email
-                          ? "text-red-500"
-                          : "text-tetiary-semi-dark dark:text-secondary-light-gray"
-                      } `}
-                    >
-                      <p>{state?.errors.email}</p>
-                    </div>
-                  )} */}
                 </div>
               </div>
             </section>

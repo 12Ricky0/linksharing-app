@@ -71,6 +71,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
           {links.map((link, index) => (
             <Sortable_Item
               key={index}
+              link={link.url}
               index={index}
               id={index}
               color={Colors[link.platform]}
