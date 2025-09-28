@@ -27,42 +27,46 @@ export default function Header() {
       <div className="inline-flex md:gap-6">
         <Link
           href="/link/home"
-          className={`w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
+          className={`w-[68px] group cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
             path == "/link/home" && "bg-gray-100"
           }  rounded-[8px] flex items-center justify-center`}
         >
           <Image
-            src="/assets/images/icon-link.svg"
+            src={`/assets/images/icon-link${
+              path == "/link/home" ? "-blue" : ""
+            }.svg`}
             height={32}
             width={32}
             alt="link"
-            className="w-auto h-auto"
+            className="w-auto h-auto group-hover:content-[url('/assets/images/icon-link-blue.svg')]"
           />
           <span
             className={`font-semibold text-[16px] ${
               path == "/link/home" ? "text-[#633CFF]" : "text-gray-500"
-            }  hidden md:block`}
+            }  hidden hover:text-[#633CFF] md:block`}
           >
             Links
           </span>
         </Link>
         <Link
           href="/link/profile"
-          className={`w-[68px] cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
+          className={`w-[68px] group cursor-pointer md:w-auto md:gap-2 md:py-4 md:px-6 ${
             path == "/link/profile" && "bg-gray-100"
           }  rounded-[8px] flex items-center justify-center`}
         >
           <Image
-            src="/assets/images/icon-profile-details-header.svg"
+            src={`/assets/images/icon-profile-details-header${
+              path == "/link/profile" ? "-blue" : ""
+            }.svg`}
             height={32}
             width={32}
             alt="profile"
-            className="w-auto h-auto"
+            className="w-auto h-auto group-hover:content-[url('/assets/images/icon-profile-details-header-blue.svg')]"
           />
           <span
             className={`font-semibold text-[16px] ${
               path == "/link/profile" ? "text-[#633CFF]" : "text-gray-500"
-            }  hidden md:block`}
+            }  hidden hover:text-[#633CFF] md:block`}
           >
             Profile Details
           </span>
@@ -70,7 +74,7 @@ export default function Header() {
       </div>
       <Link
         href="/link/preview"
-        className="flex cursor-pointer items-center justify-center size-[52px] md:size-auto md:py-4 border-2 md:px-6 border-[#633CFF] rounded-[8px]"
+        className="flex cursor-pointer hover:bg-gray-100 items-center justify-center size-[52px] md:size-auto md:py-4 border-2 md:px-6 border-[#633CFF] rounded-[8px]"
       >
         <Image
           src="/assets/images/icon-preview-header.svg"

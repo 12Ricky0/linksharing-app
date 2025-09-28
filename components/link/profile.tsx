@@ -74,7 +74,7 @@ export default function Profile_Details({
               link={link.url}
               index={index}
               id={index}
-              color={Colors[link?.platform]}
+              color={Colors[link?.platform as keyof typeof Colors]}
               name={link.platform}
             />
           ))}
@@ -96,13 +96,13 @@ export default function Profile_Details({
                 Profile picture
               </h3>
               <div className="md:inline-flex items-center gap-6">
-                <div className="bg-gray-100 mb-6 md:mb-0 rounded-[8px] size-[150px] flex justify-center items-center relative flex-col gap-2">
+                <div className="bg-gray-100 mb-6 md:mb-0 group rounded-[8px] cursor-pointer size-[150px] flex justify-center items-center relative flex-col gap-2">
                   {preview ? (
                     <Image
                       src={preview}
                       alt="Uploaded Preview"
                       fill
-                      className="rounded-[8px]"
+                      className={`rounded-[8px] group-hover:brightness-50`}
                     />
                   ) : (
                     <div className="inline-flex justify-center flex-col items-center">
@@ -111,7 +111,7 @@ export default function Profile_Details({
                         height={32}
                         width={32}
                         alt="upload"
-                        className="w-auto h-auto "
+                        className={`w-auto h-auto`}
                       />
                       <h1 className="text-[16px] font-semibold text-[#633CFF]">
                         + Upload Image
@@ -124,8 +124,24 @@ export default function Profile_Details({
                     id="dp"
                     accept="image/png, image/jpeg"
                     onChange={handleImageUpload}
-                    className="absolute inset-0 opacity-0 cursor-pointer"
+                    className="absolute inset-0 opacity-0 z-50 cursor-pointer"
                   />
+                  <div
+                    className={`hidden ${
+                      preview && "group-hover:inline-flex"
+                    }  justify-center z-20 flex-col items-center`}
+                  >
+                    <Image
+                      src="/assets/images/icon-upload-image-white.svg"
+                      height={32}
+                      width={32}
+                      alt="upload"
+                      className="w-auto h-auto "
+                    />
+                    <h1 className="text-[16px] font-semibold text-white">
+                      Change Image
+                    </h1>
+                  </div>
                 </div>
                 <p className="font-normal md:block hidden  text-[12px] text-gray-500">
                   Image must be below 1024x1024px.

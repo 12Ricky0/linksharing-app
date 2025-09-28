@@ -74,7 +74,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
               link={link.url}
               index={index}
               id={index}
-              color={Colors[link.platform]}
+              color={Colors[link.platform as keyof typeof Colors]}
               name={link.platform}
             />
           ))}
@@ -94,7 +94,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
 
               <button
                 onClick={addLink}
-                className="border cursor-pointer py-4 border-[#633CFF] w-full rounded-[8px] text-[16px] font-semibold text-[#633CFF] mt-[40px]"
+                className="border cursor-pointer hover:bg-gray-100 py-4 border-[#633CFF] w-full rounded-[8px] text-[16px] font-semibold text-[#633CFF] mt-[40px]"
               >
                 + Add new link
               </button>
@@ -225,7 +225,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                       state?.errors[index]
                         ? "border-red-500"
                         : "border-gray-200"
-                    } mt-2 w-full p-4 gap-4  flex items-center rounded-[8px]`}
+                    } mt-2 w-full p-4 gap-4 group flex items-center rounded-[8px]`}
                   >
                     <Image
                       src="/assets/images/icon-link.svg"
