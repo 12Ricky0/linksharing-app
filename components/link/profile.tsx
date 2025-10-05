@@ -26,8 +26,6 @@ export default function Profile_Details({
       return;
     }
 
-    // const url = URL.createObjectURL(file);
-    // setPreview(url);
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64String = reader.result as string;
@@ -59,15 +57,34 @@ export default function Profile_Details({
 
   return (
     <div className=" lg:flex justify-between gap-6 md:m-6">
-      <div className="hidden flex-2/5 lg:flex items-center px-[126px] relative max-h-[700px] bg-white rounded-[8px]">
+      <div className="hidden flex-2/5 flex-col shrink-0 lg:flex items-center px-[126px] relative max-h-[700px] bg-white rounded-[8px]">
+        <article className="top-15 absolute">
+          <div className="size-[104px] relative flex justify-center rounded-full border-4 mx-auto  border-[#633CFF]">
+            <Image
+              src={preview ? preview : `/assets/images/icon-upload-image.svg`}
+              height={104}
+              width={104}
+              alt="profile-image"
+              className="  rounded-full "
+            />
+          </div>
+          <h1 className="text-[18px] mt-[15px] bg-white w-[200px] font-semibold text-center text-gray-900">
+            {name}
+          </h1>
+          <p className="text-[14px] font-normal bg-white w-[200px] text-center text-gray-500">
+            {email}
+          </p>
+        </article>
         <Image
-          src="/assets/images/illustration-phone-mockup.svg"
+          src={`/assets/images/illustration-phone-mockup.svg`}
           height={32}
           width={307}
           alt="phone"
-          className="w-[307px] shrink-0 h-auto "
+          className="w-[307px] shrink-0 h-auto object-contain"
+          style={{ minWidth: "307px" }}
         />
-        <section className="absolute max-h-[300px] gap-[20px] left-[160px] overflow-y-auto top-[310px] flex flex-col">
+
+        <section className="absolute max-h-[300px] left-[170px] overflow-y-auto top-[275px] flex flex-col">
           {data.map((link, index) => (
             <Sortable_Item
               key={index}

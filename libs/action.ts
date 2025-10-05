@@ -120,8 +120,6 @@ export async function createProfile(prev: any, formData: FormData) {
   const firstName = formData.get("first_name");
   const lastName = formData.get("last_name");
   const user = formData.get("email");
-  // const session = await auth();
-  // const user = session?.user?.email;
 
   const validateProfile = profileSchema.safeParse({
     fname: firstName,
@@ -139,7 +137,6 @@ export async function createProfile(prev: any, formData: FormData) {
   try {
     await dbConnect();
     const currentUser = await User.findOne({ email: email });
-    // currentUser.image = picture;
     currentUser.name = fname + " " + lname;
     await currentUser.save();
   } catch (error) {

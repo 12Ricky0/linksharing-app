@@ -61,7 +61,9 @@ export default function Preview({
                 target="_blank"
                 key={link._id}
                 className=" p-4 flex justify-between items-center rounded-[8px]"
-                style={{ backgroundColor: Colors[link.platform] }}
+                style={{
+                  backgroundColor: Colors[link.platform as keyof typeof Colors],
+                }}
               >
                 <div className="inline-flex gap-2 items-center">
                   <Image

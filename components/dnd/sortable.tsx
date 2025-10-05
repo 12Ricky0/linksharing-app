@@ -18,7 +18,7 @@ export default function Sortable_Item({
       <div
         ref={ref}
         key={index}
-        className={` w-[243px] cursor-pointer flex justify-between px-4 rounded-[8px] py-[14px]`}
+        className={` w-[243px] cursor-pointer flex justify-between px-4 mb-[20] rounded-[8px] py-[14px]`}
         style={{ backgroundColor: color }}
       >
         <div className="inline-flex gap-4 font-normal text-white text-[12px] ">

@@ -67,7 +67,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
           alt="phone"
           className="w-[307px] shrink-0 h-auto "
         />
-        <section className="absolute max-h-[300px] gap-[20px] left-[160px] overflow-y-auto top-[310px] flex flex-col">
+        <section className="absolute max-h-[300px] left-[160px] overflow-y-auto top-[310px] flex flex-col">
           {links.map((link, index) => (
             <Sortable_Item
               key={index}

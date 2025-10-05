@@ -6,7 +6,6 @@ export default async function Profile_Preview() {
   const req = await getAllLinks();
   const data = await req?.json();
   const user = await getUser(data[0]?.user);
-  console.log(user);
 
   return (
     <main className="">
