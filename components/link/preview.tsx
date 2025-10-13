@@ -13,7 +13,6 @@ export default function Preview({
   name: string;
 }) {
   const router = useRouter();
-  // const savedImage = localStorage.getItem("profileImage");
   const [url, setUrl] = useState("/assets/images/icon-upload-image.svg");
 
   useEffect(() => {
