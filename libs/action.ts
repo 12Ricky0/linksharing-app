@@ -67,6 +67,8 @@ export async function registerUser(previous: any, formData: FormData) {
 }
 
 export async function authenticateUser(prevState: any, formData: FormData) {
+  await dbConnect();
+
   try {
     await signIn("credentials", formData);
   } catch (error) {
