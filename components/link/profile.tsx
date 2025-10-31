@@ -252,7 +252,7 @@ export default function Profile_Details({
             <button
               onClick={() => localStorage.setItem("profileImage", preview!)}
               type="submit"
-              className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
+              className="bg-[#633CFF] hover:opacity-50 cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
             >
               {isPending ? <p className="animate-pulse">Saving...</p> : " Save"}
             </button>

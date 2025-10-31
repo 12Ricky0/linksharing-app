@@ -191,7 +191,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                           className={`border-b ${
                             selectedLinks.includes(platform)
                               ? "text-gray-400"
-                              : "text-gray-900"
+                              : "text-gray-900 hover:text-[#633CFF]"
                           } border-gray-200 flex gap-3 items-center last:border-0 py-4 list-none`}
                         >
                           <Image
@@ -278,7 +278,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
           <div className="border-t  mt-6 pt-4 border-gray-400 flex justify-center md:justify-end">
             <button
               type="submit"
-              className="bg-[#633CFF] cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
+              className="bg-[#633CFF] hover:opacity-50 cursor-pointer m-4 rounded-[8px] py-4 text-[16px] font-semibold text-white w-full md:w-[85px]"
             >
               {isPending ? "Saving..." : "Save"}
             </button>

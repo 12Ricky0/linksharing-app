@@ -29,7 +29,7 @@ export default function Preview({
         <header className="mx-4 my-4 md:bg-white md:rounded-[8px] md:px-6 md:py-4 flex justify-between">
           <button
             onClick={() => router.back()}
-            className="text-[#633CFF] font-semibold cursor-pointer text-[16px] border border-[#633CFF] py-4 w-[160px] rounded-[8px]"
+            className="text-[#633CFF] font-semibold hover:bg-gray-100 cursor-pointer text-[16px] border border-[#633CFF] py-4 w-[160px] rounded-[8px]"
           >
             Back to Editor
           </button>
