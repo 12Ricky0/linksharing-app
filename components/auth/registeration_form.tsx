@@ -42,7 +42,7 @@ export default function Register_Form() {
 
           <form className="md:w-[396px]" action={formAction}>
             <div className="font-normal text-[12px] text-gray-900">
-              <label htmlFor="">Email address</label>
+              <label htmlFor="email">Email address</label>
               <div className="relative">
                 <Image
                   src="/assets/images/icon-email.svg"
@@ -79,7 +79,7 @@ export default function Register_Form() {
               </div>
             </div>
             <div className="font-normal text-[12px] mt-6 text-gray-900">
-              <label htmlFor="">Create password</label>
+              <label htmlFor="password">Create password</label>
               <div className="relative">
                 <Image
                   src="/assets/images/icon-password.svg"
@@ -116,7 +116,7 @@ export default function Register_Form() {
               </div>
             </div>
             <div className="font-normal text-[12px] mt-6 text-gray-900">
-              <label htmlFor="">Confirm password</label>
+              <label htmlFor="repeat">Confirm password</label>
               <div className="relative mb-2">
                 <Image
                   src="/assets/images/icon-password.svg"

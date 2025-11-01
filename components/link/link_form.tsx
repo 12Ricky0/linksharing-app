@@ -144,12 +144,9 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                     Remove
                   </button>
                 </header>
-                <label
-                  htmlFor=""
-                  className=" font-normal text-[12px] text-gray-900"
-                >
+                <h2 className=" font-normal text-[12px] text-gray-900">
                   Platform
-                </label>
+                </h2>
                 <section className="relative mt-2">
                   <div
                     onClick={() => toggleDropdown(index)}
@@ -167,6 +164,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                       <input
                         type="hidden"
                         name="platform"
+                        id="platform"
                         value={link.platform}
                       />
                     </div>
@@ -215,7 +213,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                 </section>{" "}
                 <div className="mt-4">
                   <label
-                    htmlFor="link"
+                    htmlFor={link.platform.toLowerCase()}
                     className=" font-normal text-[12px] text-gray-900"
                   >
                     Link
@@ -236,7 +234,7 @@ export default function Add_Link({ data }: { data: LinkProps[] }) {
                     />
                     <input
                       name="link"
-                      id="link"
+                      id={link.platform.toLowerCase()}
                       placeholder={`e.g. https://www.${link.platform.toLowerCase()}.com/johnappleseed`}
                       className="flex-1 outline-none text-sm"
                       value={link.url}

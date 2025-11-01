@@ -21,7 +21,7 @@ export default function Login_Form() {
 
   return (
     <section>
-      <section className="md:flex flex-col h-screen justify-center items-center">
+      <section className="md:flex p-8 md:p-0 flex-col h-screen justify-center items-center">
         <Image
           src="/assets/images/logo-devlinks-large.svg"
           height={40}
@@ -41,7 +41,7 @@ export default function Login_Form() {
 
           <form className="md:w-[396px]" action={formAction}>
             <div className="font-normal text-[12px] text-gray-900">
-              <label htmlFor="">Email address</label>
+              <label htmlFor="email">Email address</label>
               <div className="relative">
                 <Image
                   src="/assets/images/icon-email.svg"
@@ -77,7 +77,7 @@ export default function Login_Form() {
               </div>
             </div>
             <div className="font-normal text-[12px] mt-6 text-gray-900">
-              <label htmlFor="">Password</label>
+              <label htmlFor="password">Password</label>
               <div className="relative">
                 <Image
                   src="/assets/images/icon-password.svg"

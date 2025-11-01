@@ -172,7 +172,7 @@ export default function Profile_Details({
             <section className="bg-gray-50 mt-6 px-6 py-6 md:flex flex-col justify-center items-center md:px-[24px] rounded-[8px]">
               <div className="font-normal w-full text-[12px] text-gray-900">
                 <div className="md:flex justify-between items-center md:w-full">
-                  <label className="first_name" htmlFor="">
+                  <label className="first_name" htmlFor="first_name">
                     First Name*
                   </label>
                   <input
