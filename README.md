@@ -29,7 +29,8 @@ Users are able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![./public/login.png](./public/login.png)
+![./public/profile.png](./public/profile.png)
 
 ### Links
 
